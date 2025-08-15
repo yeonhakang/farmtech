@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 농번기 - 스마트 농업 관리</title>
+    <style>
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #4CAF50, #81C784);
+            margin: 0; padding: 20px; min-height: 100vh;
+        }
+        .container { 
+            max-width: 800px; margin: 0 auto; background: white; 
+            border-radius: 20px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        .header { text-align: center; margin-bottom: 30px; }
+        .title { font-size: 2.5em; color: #2E7D32; margin-bottom: 10px; }
+        .card { 
+            background: #f8f9fa; padding: 20px; margin: 15px 0; 
+            border-radius: 15px; border-left: 5px solid #4CAF50;
+        }
+        .card h3 { color: #2E7D32; margin-bottom: 15px; }
+        input, select, button { 
+            padding: 10px; margin: 5px; border: 2px solid #ddd; 
+            border-radius: 8px; font-size: 16px;
+        }
+        button { 
+            background: #4CAF50; color: white; border: none; cursor: pointer;
+        }
+        button:hover { background: #45a049; }
+        .result { 
+            margin-top: 15px; padding: 15px; background: #e8f5e9; 
+            border-radius: 8px; color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">🌾 농번기</h1>
+            <p>스마트 농업 관리 시스템</p>
+        </div>
+
+        <div class="card">
+            <h3>📏 농장 면적 계산기</h3>
+            <div>
+                <input type="number" id="area" placeholder="면적 입력">
+                <select id="unit">
+                    <option value="m2">m²</option>
+                    <option value="pyeong">평</option>
+                    <option value="ha">ha</option>
+                </select>
+                <button onclick="convert()">변환</button>
+            </div>
+            <div id="result" class="result" style="display:none;"></div>
+        </div>
+
+        <div class="card">
+            <h3>🌤️ 오늘의 농업 날씨</h3>
+            <p><strong>기온:</strong> 22°C | <strong>습도:</strong> 65%</p>
+            <p><strong>농작업 추천:</strong> 파종하기 좋은 날씨입니다</p>
+        </div>
+
+        <div class="card">
+            <h3>📅 이번 주 농작업 일정</h3>
+            <ul style="line-height: 2;">
+                <li>🌱 월요일: 모종 관찰 및 기록</li>
+                <li>💧 수요일: 관개시설 점검</li>
+                <li>🌾 금요일: 수확 준비 작업</li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>📊 예상 수확량 (평 단위)</h3>
+            <p><strong>벼:</strong> 1.8kg/평 예상</p>
+            <p><strong>배추:</strong> 18kg/평 예상</p>
+            <p><strong>고추:</strong> 4.5kg/평 예상</p>
+            <p style="color: #4CAF50;">💡 올해 기상조건으로 평년 대비 5% 증수 전망</p>
+        </div>
+    </div>
+
+    <script>
+        function convert() {
+            const area = parseFloat(document.getElementById('area').value);
+            const unit = document.getElementById('unit').value;
+            const result = document.getElementById('result');
+            
+            if (!area || area <= 0) {
+                alert('올바른 면적을 입력해주세요');
+                return;
+            }
+
+            let output = '';
+            if (unit === 'm2') {
+                const pyeong = (area * 0.3025).toFixed(1);
+                const ha = (area / 10000).toFixed(4);
+                output = `${area}m² = ${pyeong}평 = ${ha}ha`;
+            } else if (unit === 'pyeong') {
+                const m2 = (area * 3.3058).toFixed(1);
+                const ha = (area * 0.0003305).toFixed(4);
+                output = `${area}평 = ${m2}m² = ${ha}ha`;
+            } else {
+                const m2 = (area * 10000).toFixed(0);
+                const pyeong = (area * 3025).toFixed(0);
+                output = `${area}ha = ${m2}m² = ${pyeong}평`;
+            }
+
+            result.innerHTML = output;
+            result.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
